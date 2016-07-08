@@ -1,3 +1,7 @@
+# NOTICE: Deprecated
+
+This project is deprecated an no longer actively maintained by [Heroku](https://heroku.com/). However there is a fork with Python3 support being maintained by YPlan at [github.com/YPlan/salesforce-oauth-request](https://github.com/YPlan/salesforce-oauth-request).
+
 # Salesforce Oauth Request
 
 A bit of Requests driven utility code to drive the Salesforce.com Oauth2 Web flow. Use this module to login to a Salesforce account using just the username and password. Good for tests and scripts which need
