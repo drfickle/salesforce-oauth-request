@@ -21,19 +21,21 @@ requires = [
     'six>=1.10.0',
 ]
 
-with open('README.md') as f:
+with open('README.rst') as f:
     readme = f.read()
+with open('HISTORY.rst') as history_file:
+    history = history_file.read().replace('.. :changelog:', '')
 with open('LICENSE') as f:
     license = f.read()
 
 setup(
     name='salesforce-oauth-request-yplan',
-    version='1.1.0',
+    version='1.1.1',
     description='Util package to drive Salesforce Oauth Web flow for testing.',
-    long_description=readme,
+    long_description=readme + "\n\n" + history,
     author='Scott Persinger',
     author_email='scottp@heroku.com',
-    url='https://github.com/heroku/salesforce-oauth-request',
+    url='https://github.com/YPlan/salesforce-oauth-request',
     maintainer='YPlan',
     maintainer_email='julius@yplanapp.com',
     packages=packages,
