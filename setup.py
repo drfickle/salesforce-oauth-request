@@ -27,13 +27,15 @@ with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='salesforce-oauth-request',
+    name='salesforce-oauth-request-yplan',
     version='1.1.0',
     description='Util package to drive Salesforce Oauth Web flow for testing.',
     long_description=readme,
     author='Scott Persinger',
     author_email='scottp@heroku.com',
     url='https://github.com/heroku/salesforce-oauth-request',
+    maintainer='YPlan',
+    maintainer_email='julius@yplanapp.com',
     packages=packages,
     package_data={'': ['LICENSE']},
     include_package_data=True,
