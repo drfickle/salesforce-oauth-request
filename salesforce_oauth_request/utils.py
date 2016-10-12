@@ -2,12 +2,11 @@ import os
 import re
 import time
 import base64
-import urllib
 import pickle
 import os.path
 import requests
 from six.moves import range
-from six.moves.urllib.parse import urlparse
+from six.moves import urllib
 
 
 def login(username=None,
@@ -98,7 +97,7 @@ def website_login(username=None, password=None, client_id=None,
     client_secret = os.environ.get('SALESFORCE_CLIENT_SECRET', client_secret)
     redirect_uri = os.environ.get('SALESFORCE_REDIRECT_URI', redirect_uri)
 
-    auth_url += urllib.urlencode([
+    auth_url += urllib.parse.urlencode([
         ("response_type", "code"),
         ("display", "popup"),
         ("client_id", client_id),
@@ -116,7 +115,7 @@ def website_login(username=None, password=None, client_id=None,
     )
 
     # parse out the session id and endpoint
-    params = urlparse.parse_qs(redirect_return)
+    params = urllib.parse.parse_qs(redirect_return)
 
     data = dict(code=params['code'],
                 grant_type="authorization_code",
@@ -135,7 +134,7 @@ def oauth_flow(s, oauth_url, username=None, password=None, sandbox=False):
     if r.status_code >= 300:
         raise RuntimeError(r.text)
 
-    params = urlparse.parse_qs(urlparse.urlparse(r.url).query)
+    params = urllib.parse.parse_qs(urllib.parse.urlparse(r.url).query)
 
     data = {
         "un": username,
@@ -166,14 +165,14 @@ def oauth_flow(s, oauth_url, username=None, password=None, sandbox=False):
         base = "https://login.salesforce.com"
 
     r2 = s.post(base, data)
-    m = re.search("window.location.href\s*='(.[^']+)'", r2.text)
+    m = re.search("window.location.href\s*=['\"](.[^'\"]+)['\"]", r2.text)
     assert m is not None, ("Couldn't find location.href expression in page {} "
                            "(Username or password is wrong)").format(r2.url)
 
-    u3 = "https://" + urlparse.urlparse(r2.url).hostname + m.group(1)
+    u3 = m.group(1)
     r3 = s.get(u3)
 
-    m = re.search("window.location.href\s*='(.[^']+)'", r3.text)
+    m = re.search("window.location.href\s*=['\"](.[^'\"]+)['\"]", r3.text)
 
     assert m is not None, ("Couldn't find location.href expression in page {}:"
                            "\n{}").format(r3.url, r3.text)
