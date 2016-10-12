@@ -169,7 +169,10 @@ def oauth_flow(s, oauth_url, username=None, password=None, sandbox=False):
     assert m is not None, ("Couldn't find location.href expression in page {} "
                            "(Username or password is wrong)").format(r2.url)
 
-    u3 = m.group(1)
+    if sandbox:
+        u3 = m.group(1)
+    else:
+        u3 = "https://" + urllib.parse.urlparse(r2.url).hostname + m.group(1)
     r3 = s.get(u3)
 
     m = re.search("window.location.href\s*=['\"](.[^'\"]+)['\"]", r3.text)
